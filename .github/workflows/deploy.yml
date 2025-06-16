@@ -2,13 +2,13 @@ name: Deploy Astro to GitHub Pages
 
 on:
   push:
-    branches: [main]     # main’e her push’ta tetiklenir
-  workflow_dispatch:      # manuel tetikleme de dursun
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
-  contents: read          # repo klonlama
-  pages: write            # GitHub Pages’e deploy izni
-  id-token: write         # OIDC için
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
@@ -17,10 +17,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install, build & upload
-        uses: withastro/action@v4        # resmi Astro action’ı
-        with:                            # opsiyonel ayarlar
-          package-manager: npm           # sen npm kullanıyorsun
-          node-version: 20               # istersen sabitle
+        uses: withastro/action@v4
+        with:
+          package-manager: npm
+          node-version: 20
 
   deploy:
     needs: build
