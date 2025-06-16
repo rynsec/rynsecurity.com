@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:       #fefefe;
+  --surface:  #f4f4f4;
+  --fg:       #0f172a;
+  --accent:   #00b894;
+}
+
+/* Dark palette */
+.dark {
+  --bg:       #0b0f1a;
+  --surface:  #1f2937;
+  --fg:       #d0e7ff;
+  --accent:   #00ff88;
+}
+
+/* Uygulama */
+body { @apply bg-background text-text font-sans; }
+h1,h2,h3 { @apply text-primary font-mono; }
+a        { @apply text-primary hover:underline; }
+.card    { @apply bg-surface rounded-xl p-6; }   /* yardımcı */

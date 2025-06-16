@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const enPosts = allPosts.filter((p) => p.data.lang === 'en');
+---
+
+<Layout title="RynSecurity Blog (EN)">
+  <section class="py-16 px-6">
+    <h1 class="text-4xl font-mono text-primary text-center mb-10">
+      RynSecurity Blog (EN)
+    </h1>
+
+    <div class="grid gap-6 max-w-3xl mx-auto">
+      {enPosts.map((post) => (
+        <a
+          href={`/blog/${post.slug}`}
+          class="block bg-[#1f2937] text-white p-6 rounded hover:bg-[#2c3e50] transition"
+        >
+          <h2 class="text-2xl font-bold">{post.data.title}</h2>
+          <p class="text-sm text-gray-400">{post.data.date}</p>
+          <p>{post.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>

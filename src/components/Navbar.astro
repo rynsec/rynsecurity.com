@@ -1,0 +1,22 @@
+---
+import LanguageToggle from './LanguageToggle.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+
+const isTR = Astro.url.pathname.startsWith('/tr');
+const blogPath = isTR ? '/tr/blog' : '/blog';
+const blogLabel = isTR ? 'Yazılar' : 'Blog';
+const contactPath = isTR ? '/tr/iletisim' : '/contact';
+const contactLabel = isTR ? 'İletişim' : 'Contact';
+---
+
+<nav class="flex justify-between items-center p-4">
+  <a href="/" class="text-primary font-bold text-xl">RynSecurity</a>
+
+  <div class="flex items-center space-x-4">
+    <a href={blogPath} class="hover:underline">{blogLabel}</a>
+    <a href={contactPath} class="hover:underline">{contactLabel}</a>
+    <LanguageToggle />
+    <ThemeToggle />
+  </div>
+</nav>

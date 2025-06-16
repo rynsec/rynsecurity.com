@@ -1,0 +1,67 @@
+---
+/* <TerminalRain position="left" | "right" />
+   “position” vermezsen solda çalışır. */
+const { position = "left", class: extraClass = "" } = Astro.props;
+
+/* içerik ve hız preset’leri */
+const presets = {
+  left: {
+    delay: 150,
+    lines: [
+      "[*] Starting full port scan on subnet 192.168.56.0/24 using Nmap...",
+      "[*] Detected open port: 22 (SSH) on 192.168.56.102",
+      "[*] Banner grab complete: OpenSSH_7.6p1 Ubuntu-4ubuntu0.7",
+      "[*] Attempting DNS resolution: internal.host.local → 172.16.23.12",
+      "[*] Latency to 10.0.0.8 is 2.3 ms (ICMP Echo Reply)",
+      "[*] OS fingerprinting result: Linux 3.x - 5.x (generic)",
+      "[*] MAC address resolved via ARP: 00:1C:42:2B:60:5A (VMware, Inc.)",
+      "[*] Detected possible IDS/IPS signatures on gateway firewall",
+      "[*] Traceroute step 5: 10.12.14.1 → 10.12.14.2 (18 ms)",
+      "[*] Internal subnet enumeration complete. Hosts found: 18",
+    ],
+  },
+  right: {
+    delay: 330,
+    lines: [
+      "[+] Exploit CVE-2023-23397",
+      "[+] Reverse shell 10.10.10.9:4444",
+      "[√] PrivEsc root ✔",
+      "[#] Hashdump saved",
+      "[!] SUID binary found",
+    ],
+  },
+};
+
+const cfg   = presets[position] || presets.left;
+const align = position === "right" ? "right-0 pr-4" : "left-0 pl-24";
+
+---
+
+<!-- 33 vw genişlik, tam yükseklik -->
+<div class={`absolute top-0 ${align} w-[33vw] h-full overflow-hidden pointer-events-none select-none ${extraClass}`}>
+
+  <!-- pre önce gelir, script bundan sonraki “currentScript” ile erişir -->
+  <pre
+    class="rain whitespace-pre text-[13px] leading-5 font-mono
+           dark:text-green-400 text-green-700 dark:opacity-30 opacity-50"
+    data-lines={JSON.stringify(cfg.lines)}
+    data-delay={cfg.delay}
+  >[*] Initialising...</pre>
+
+  <script is:inline>
+    (() => {
+      /* pre etiketi, script’in hemen önceki kardeşi */
+      const pre   = document.currentScript.previousElementSibling;
+      const lines = JSON.parse(pre.dataset.lines);
+      const delay = parseInt(pre.dataset.delay, 10);
+      const max   = 40;
+
+      function add() {
+        pre.textContent += "\n" + lines[Math.floor(Math.random() * lines.length)];
+        const arr = pre.textContent.split("\n");
+        if (arr.length > max) pre.textContent = arr.slice(-max).join("\n");
+      }
+      setInterval(add, delay);
+    })();
+  </script>
+</div>

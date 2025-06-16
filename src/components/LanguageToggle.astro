@@ -1,0 +1,6 @@
+---
+const currentLang = Astro.url.pathname.startsWith('/tr') ? 'tr' : 'en';
+const toggleLangUrl = currentLang === 'tr' ? '/' : '/tr';
+const label = currentLang === 'tr' ? 'EN' : 'TR';
+---
+<a href={toggleLangUrl} class="ml-4 underline text-primary hover:text-white transition">{label}</a>

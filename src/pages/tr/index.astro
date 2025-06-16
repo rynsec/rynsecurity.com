@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/BaseLayout.astro';
+import TerminalRain from '../../components/TerminalRain.astro';
+---
+
+<Layout title="RynSecurity - Saldırı Güvenliği ve Araştırma">
+  <!-- Hero Bölümü (Animasyonlu) -->
+
+<section class="relative py-24 px-6 bg-background text-text overflow-hidden">
+
+ <TerminalRain position="left"  class="hidden lg:block" />
+<TerminalRain position="right" class="hidden lg:block" />
+
+  <div class="relative z-10 flex flex-col items-center gap-6 max-w-prose mx-auto">
+    <h1 class="text-5xl md:text-6xl font-mono text-primary text-center">
+      RynSecurity
+    </h1>
+    <p class="text-lg text-center">Saldırı Güvenliği ve Araştırma</p>
+    <a href="/tr/blog"
+       class="bg-primary text-black font-bold py-2 px-6 rounded hover:brightness-110 transition">
+      Blogumuzu Oku
+    </a>
+  </div>
+
+</section>
+  <!-- Hakkımızda -->
+  <section class="py-16 px-6 bg-[#111827] text-white">
+    <h2 class="text-3xl font-bold mb-4 text-primary">Hakkımızda</h2>
+    <p class="max-w-3xl mx-auto text-lg text-gray-300">
+      RynSecurity, saldırı güvenliği, zararlı yazılım analizi, zafiyet keşfi ve güvenlik eğitimleri konularında çalışan bağımsız bir siber güvenlik grubudur.
+    </p>
+  </section>
+
+  <!-- Hizmetler -->
+  <section class="py-16 px-6">
+    <h2 class="text-3xl font-bold mb-4 text-primary">Hizmetlerimiz</h2>
+    <ul class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto text-gray-300">
+      <li class="bg-[#1f2937] p-6 rounded-xl">🔍 Sızma Testleri</li>
+      <li class="bg-[#1f2937] p-6 rounded-xl">🛡️ Güvenlik Denetimleri</li>
+      <li class="bg-[#1f2937] p-6 rounded-xl">💻 Zararlı Yazılım Analizi</li>
+      <li class="bg-[#1f2937] p-6 rounded-xl">📚 Eğitim & Atölye Çalışmaları</li>
+    </ul>
+  </section>
+
+  <!-- Referanslar -->
+  <section class="py-16 px-6 bg-[#111827] text-white">
+    <h2 class="text-3xl font-bold mb-4 text-primary">Referanslar</h2>
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto text-gray-300">
+      <div class="bg-[#1f2937] p-6 rounded-xl">
+        <h3 class="font-bold text-lg">CyberSecure A.Ş.</h3>
+        <p>Dış sızma testi, red team simülasyonu.</p>
+      </div>
+      <div class="bg-[#1f2937] p-6 rounded-xl">
+        <h3 class="font-bold text-lg">BugBounty Platformu</h3>
+        <p>En iyi %1 araştırmacı, birçok kritik RCE bildirimi.</p>
+      </div>
+    </div>
+  </section>
+</Layout>

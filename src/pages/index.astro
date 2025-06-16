@@ -1,16 +1,62 @@
 ---
-
+import Layout from '../layouts/BaseLayout.astro';
+import TerminalRain from '../components/TerminalRain.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="RynSecurity - Offensive Security and Research">
+  <!-- Hero Section with Matrix Animation -->
+
+
+<section class="relative py-24 px-6 bg-background text-text overflow-hidden">
+
+  <!-- Sol & sağ terminal -->
+  <TerminalRain position="left"  class="hidden lg:block" />
+<TerminalRain position="right" class="hidden lg:block" />
+  <!-- Orta içerik -->
+  <div class="relative z-10 flex flex-col items-center gap-6 max-w-prose mx-auto">
+    <h1 class="text-5xl md:text-6xl font-mono text-primary text-center">
+      RynSecurity
+    </h1>
+    <p class="text-lg text-center">Offensive Security &amp; Research</p>
+    <a href="/blog"
+       class="bg-primary text-black font-bold py-2 px-6 rounded hover:brightness-110 transition">
+      Read Our Blog
+    </a>
+  </div>
+
+</section>
+  <!-- About Us -->
+  <section class="py-16 px-6 bg-[#111827] text-white">
+    <h2 class="text-3xl font-bold mb-4 text-primary">About Us</h2>
+    <p class="max-w-3xl mx-auto text-lg text-gray-300">
+      RynSecurity is an independent cybersecurity group focusing on offensive security, malware analysis,
+      vulnerability research and advanced security trainings.
+    </p>
+  </section>
+
+  <!-- Services -->
+  <section class="py-16 px-6">
+    <h2 class="text-3xl font-bold mb-4 text-primary">Our Services</h2>
+    <ul class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto text-gray-300">
+      <li class="bg-[#1f2937] p-6 rounded-xl">🔍 Penetration Testing</li>
+      <li class="bg-[#1f2937] p-6 rounded-xl">🛡️ Security Audits</li>
+      <li class="bg-[#1f2937] p-6 rounded-xl">💻 Malware Analysis</li>
+      <li class="bg-[#1f2937] p-6 rounded-xl">📚 Training & Workshops</li>
+    </ul>
+  </section>
+
+  <!-- References -->
+  <section class="py-16 px-6 bg-[#111827] text-white">
+    <h2 class="text-3xl font-bold mb-4 text-primary">References</h2>
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto text-gray-300">
+      <div class="bg-[#1f2937] p-6 rounded-xl">
+        <h3 class="font-bold text-lg">Test Inc.</h3>
+        <p>External pentest, red team simulation.</p>
+      </div>
+      <div class="bg-[#1f2937] p-6 rounded-xl">
+        <h3 class="font-bold text-lg">BugBounty Platform</h3>
+        <p>Top 1% researcher, multiple critical RCE reports.</p>
+      </div>
+    </div>
+  </section>
+</Layout>
