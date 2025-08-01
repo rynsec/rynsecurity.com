@@ -8,7 +8,7 @@ const title = "Phishing URL Analiz Aracı";
 <Layout title={title}>
   <section class="max-w-2xl mx-auto p-6 mt-12 bg-white dark:bg-zinc-900 rounded-2xl shadow-md">
     <h1 class="text-3xl font-bold mb-4 text-center">Phishing URL Analiz Aracı</h1>
-    <p class="text-gray-500 dark:text-gray-400 text-center mb-6">
+    <p class="text-gray-600 dark:text-gray-300 text-center mb-6">
       Şüpheli bir bağlantıyı analiz etmek için aşağıya yapıştırın.
     </p>
 
@@ -19,7 +19,11 @@ const title = "Phishing URL Analiz Aracı";
         name="url"
         placeholder="https://örnek.com"
         required
-        class="w-full p-3 rounded-lg border border-gray-300 dark:border-zinc-700 focus:outline-none"
+        class="w-full p-3 rounded-lg border border-gray-300 dark:border-zinc-700
+               bg-white dark:bg-zinc-800
+               text-black dark:text-white
+               placeholder-gray-500 dark:placeholder-gray-400
+               focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <button
         type="submit"
@@ -29,7 +33,7 @@ const title = "Phishing URL Analiz Aracı";
       </button>
     </form>
 
-    <div id="result" class="mt-6 text-center text-sm text-gray-700 dark:text-gray-300"></div>
+    <div id="result" class="mt-6 text-center text-sm text-gray-800 dark:text-gray-200"></div>
   </section>
 
   <script type="module">
@@ -38,7 +42,7 @@ const title = "Phishing URL Analiz Aracı";
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      result.innerText = "Analiz ediliyor...";
+      result.innerText = "🔍 Analiz ediliyor...";
 
       const url = form.url.value;
       try {
@@ -49,9 +53,11 @@ const title = "Phishing URL Analiz Aracı";
         });
 
         const data = await res.json();
-        result.innerText = data.result || "Analiz sonucu alınamadı.";
+        result.innerText = data.result
+          ? `✅ Sonuç: ${data.result}`
+          : "⚠️ Analiz sonucu alınamadı.";
       } catch (err) {
-        result.innerText = "Bir hata oluştu. Lütfen tekrar deneyin.";
+        result.innerText = "❌ Hata: Sunucuya ulaşılamadı.";
       }
     });
   </script>
