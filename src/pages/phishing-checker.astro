@@ -1,0 +1,58 @@
+---
+// src/pages/phishing-checker.astro
+import Layout from '../layouts/BaseLayout.astro';
+
+const title = "Phishing URL Analiz Aracı";
+---
+
+<Layout title={title}>
+  <section class="max-w-2xl mx-auto p-6 mt-12 bg-white dark:bg-zinc-900 rounded-2xl shadow-md">
+    <h1 class="text-3xl font-bold mb-4 text-center">Phishing URL Analiz Aracı</h1>
+    <p class="text-gray-500 dark:text-gray-400 text-center mb-6">
+      Şüpheli bir bağlantıyı analiz etmek için aşağıya yapıştırın.
+    </p>
+
+    <form id="analyze-form" class="space-y-4">
+      <input
+        type="url"
+        id="url"
+        name="url"
+        placeholder="https://örnek.com"
+        required
+        class="w-full p-3 rounded-lg border border-gray-300 dark:border-zinc-700 focus:outline-none"
+      />
+      <button
+        type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition"
+      >
+        Analiz Et
+      </button>
+    </form>
+
+    <div id="result" class="mt-6 text-center text-sm text-gray-700 dark:text-gray-300"></div>
+  </section>
+
+  <script type="module">
+    const form = document.getElementById("analyze-form");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      result.innerText = "Analiz ediliyor...";
+
+      const url = form.url.value;
+      try {
+        const res = await fetch("https://api.rynsecurity.com/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url }),
+        });
+
+        const data = await res.json();
+        result.innerText = data.result || "Analiz sonucu alınamadı.";
+      } catch (err) {
+        result.innerText = "Bir hata oluştu. Lütfen tekrar deneyin.";
+      }
+    });
+  </script>
+</Layout>
