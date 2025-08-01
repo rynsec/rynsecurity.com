@@ -2,12 +2,13 @@
 import LanguageToggle from './LanguageToggle.astro';
 import ThemeToggle from './ThemeToggle.astro';
 
-
 const isTR = Astro.url.pathname.startsWith('/tr');
 const blogPath = isTR ? '/tr/blog' : '/blog';
 const blogLabel = isTR ? 'Yazılar' : 'Blog';
 const contactPath = isTR ? '/tr/iletisim' : '/contact';
 const contactLabel = isTR ? 'İletişim' : 'Contact';
+const phishingToolPath = isTR ? '/tr/phishing-checker' : '/phishing-checker';
+const phishingToolLabel = isTR ? 'URL Analizi' : 'Phishing Tool';
 ---
 
 <nav class="flex justify-between items-center p-4">
@@ -16,6 +17,9 @@ const contactLabel = isTR ? 'İletişim' : 'Contact';
   <div class="flex items-center space-x-4">
     <a href={blogPath} class="hover:underline">{blogLabel}</a>
     <a href={contactPath} class="hover:underline">{contactLabel}</a>
+    <a href={phishingToolPath} class="hover:underline text-blue-600 dark:text-blue-400 font-semibold">
+      {phishingToolLabel}
+    </a>
     <LanguageToggle />
     <ThemeToggle />
   </div>
