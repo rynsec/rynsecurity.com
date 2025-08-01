@@ -65,7 +65,7 @@ const title = "Phishing URL Analiz Aracı";
           if (data.score <= 5) {
             riskLevel = "✅ Düşük Risk";
             riskColor = "text-green-600";
-          } else if (data.score <= 10) {
+          } else if (data.score <= 15) {
             riskLevel = "⚠️ Orta Seviye Risk";
             riskColor = "text-yellow-500";
           } else {
@@ -86,52 +86,62 @@ const title = "Phishing URL Analiz Aracı";
               <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">Analiz Sonuçları</h2>
               
               <div class="space-y-4">
-                <!-- Static Analysis -->
+                <!-- Statik Analiz -->
                 <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-300">Domain Yaşı (gün)</span>
-                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.domain_age_days}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-300">Yeni Domain mi?</span>
-                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_domain_new ? 'Evet' : 'Hayır'}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-300">IP Adresi mi?</span>
+                  <span class="text-gray-600 dark:text-gray-300">IP Adresi Kullanımı</span>
                   <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_ip_address ? 'Evet' : 'Hayır'}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-300">Subdomain Şüpheli mi?</span>
+                  <span class="text-gray-600 dark:text-gray-300">URL Uzunluğu</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_url_long ? 'Evet' : 'Hayır'}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">Şüpheli Kelimeler</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.suspicious_keywords.join(', ') || 'Yok'}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">Riskli TLD</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_tld_risky ? 'Evet' : 'Hayır'}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">Subdomain Şüpheli</span>
                   <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_subdomain_suspicious ? 'Evet' : 'Hayır'}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-300">TLD Riskli mi?</span>
-                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_tld_risky ? 'Evet' : 'Hayır'}</span>
+                  <span class="text-gray-600 dark:text-gray-300">Yeni Domain</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_domain_new ? 'Evet' : 'Hayır'}</span>
                 </div>
 
-                <!-- Dynamic Analysis -->
+                <!-- Dinamik Analiz -->
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">SSL Sertifikası Geçersiz mi?</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${dynamicAnalysis.ssl_valid ? 'Hayır' : 'Evet'}</span>
+                </div>
                 <div class="flex justify-between">
                   <span class="text-gray-600 dark:text-gray-300">Form Sayısı</span>
                   <span class="font-medium text-gray-800 dark:text-gray-200">${dynamicAnalysis.form_count}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-300">Login Formu Tespit Edildi</span>
+                  <span class="text-gray-600 dark:text-gray-300">Login Formu</span>
                   <span class="font-medium text-gray-800 dark:text-gray-200">${dynamicAnalysis.has_login_form ? 'Evet' : 'Hayır'}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-300">SSL Geçerli mi?</span>
-                  <span class="font-medium text-gray-800 dark:text-gray-200">${dynamicAnalysis.ssl_valid ? 'Evet' : 'Hayır'}</span>
+                  <span class="text-gray-600 dark:text-gray-300">JavaScript Yönlendirme</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${dynamicAnalysis.has_js_redirect ? 'Evet' : 'Hayır'}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">Şüpheli Form Action</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${dynamicAnalysis.suspicious_form_action ? 'Evet' : 'Hayır'}</span>
                 </div>
 
-                <!-- Risk Level -->
-                <div class="flex justify-between">
+                <!-- Genel Değerlendirme -->
+                <div class="flex justify-between mt-6">
+                  <span class="text-gray-600 dark:text-gray-300">Toplam Puan</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${data.score}</span>
+                </div>
+                <div class="flex justify-between mt-2">
                   <span class="text-gray-600 dark:text-gray-300">Risk Seviyesi</span>
-                  <span class="font-medium ${riskColor}">${riskLevelText}</span>
-                </div>
-
-                <!-- Details -->
-                <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-300">Detaylar</span>
-                  <span class="font-medium text-gray-800 dark:text-gray-200">${details}</span>
+                  <span class="font-medium ${riskColor}">${riskLevel}</span>
                 </div>
               </div>
             </div>
