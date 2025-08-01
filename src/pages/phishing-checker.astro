@@ -1,5 +1,4 @@
 ---
-// src/pages/phishing-checker.astro
 import Layout from '../layouts/BaseLayout.astro';
 
 const title = "Phishing URL Analiz Aracı";
@@ -17,7 +16,7 @@ const title = "Phishing URL Analiz Aracı";
         type="url"
         id="url"
         name="url"
-        placeholder="https://örnek.com"
+        placeholder="https://ornek.com"
         required
         class="w-full p-3 rounded-lg border border-gray-300 dark:border-zinc-700
                bg-white dark:bg-zinc-800
@@ -33,7 +32,7 @@ const title = "Phishing URL Analiz Aracı";
       </button>
     </form>
 
-    <div id="result" class="mt-6 text-center text-sm text-gray-800 dark:text-gray-200"></div>
+    <div id="result" class="mt-6 text-center text-lg font-medium text-gray-800 dark:text-gray-200"></div>
   </section>
 
   <script type="module">
@@ -44,18 +43,24 @@ const title = "Phishing URL Analiz Aracı";
       e.preventDefault();
       result.innerText = "🔍 Analiz ediliyor...";
 
-      const url = form.url.value;
+      const url = form.url.value.trim();
       try {
-        const res = await fetch("https://api.rynsecurity.com/analyze", {
+        const response = await fetch("http://91.98.26.21:5000/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ url }),
         });
 
-        const data = await res.json();
-        result.innerText = data.result
-          ? `✅ Sonuç: ${data.result}`
-          : "⚠️ Analiz sonucu alınamadı.";
+        const data = await response.json();
+
+        if (response.ok && data.result) {
+          const status = data.result === "phishing"
+            ? "🚨 Tehlikeli! Phishing tespit edildi."
+            : "✅ Güvenli bir bağlantı gibi görünüyor.";
+          result.innerText = status;
+        } else {
+          result.innerText = "⚠️ Analiz sonucu alınamadı.";
+        }
       } catch (err) {
         result.innerText = "❌ Hata: Sunucuya ulaşılamadı.";
       }
