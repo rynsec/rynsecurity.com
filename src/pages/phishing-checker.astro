@@ -33,15 +33,21 @@ const title = "Phishing URL Analiz Aracı";
     </form>
 
     <div id="result" class="mt-6 text-center text-lg font-medium text-gray-800 dark:text-gray-200"></div>
+
+    <div id="analysis-details" class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+      <!-- Details will be displayed here after analysis -->
+    </div>
   </section>
 
   <script type="module">
     const form = document.getElementById("analyze-form");
     const result = document.getElementById("result");
+    const analysisDetails = document.getElementById("analysis-details");
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       result.innerText = "🔍 Analiz ediliyor...";
+      analysisDetails.innerHTML = '';  // Clear previous details
 
       const url = form.url.value.trim();
       try {
@@ -53,11 +59,20 @@ const title = "Phishing URL Analiz Aracı";
 
         const data = await response.json();
 
-        if (response.ok && data.result) {
-          const status = data.result === "phishing"
-            ? "🚨 Tehlikeli! Phishing tespit edildi."
-            : "✅ Güvenli bir bağlantı gibi görünüyor.";
+        if (response.ok && data.score) {
+          // Update status message
+          const status = data.score >= 50
+            ? "✅ Güvenli bir bağlantı gibi görünüyor."
+            : "🚨 Tehlikeli! Phishing tespit edildi.";
           result.innerText = status;
+
+          // Show detailed analysis
+          analysisDetails.innerHTML = `
+            <div><strong>Statik Analiz Sonuçları:</strong> ${JSON.stringify(data.static_analysis)}</div>
+            <div><strong>Dinamik Analiz Sonuçları:</strong> ${JSON.stringify(data.dynamic_analysis)}</div>
+            <div><strong>Risk Seviyesi:</strong> ${data.risk_level}</div>
+            <div><strong>Detaylar:</strong> ${data.details}</div>
+          `;
         } else {
           result.innerText = "⚠️ Analiz sonucu alınamadı.";
         }
