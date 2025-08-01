@@ -60,24 +60,15 @@ const title = "Phishing URL Analiz Aracı";
         const data = await response.json();
 
         if (response.ok && data) {
-          // Determine risk level based on the score
-          let riskLevel, riskColor;
-          if (data.score <= 5) {
-            riskLevel = "✅ Düşük Risk";
-            riskColor = "text-green-600";
-          } else if (data.score <= 15) {
-            riskLevel = "⚠️ Orta Seviye Risk";
-            riskColor = "text-yellow-500";
-          } else {
-            riskLevel = "🚨 Yüksek Risk";
-            riskColor = "text-red-600";
-          }
-          result.innerHTML = `<div class="${riskColor} font-bold text-2xl">${riskLevel}</div>`;
+          // Calculate percentage based on total score out of 40
+          const totalScore = data.score; // The total score from backend (0-20 for each side)
+          const scorePercentage = Math.round((totalScore / 40) * 100); // Normalize to 100
+
+          result.innerHTML = `<div class="text-2xl font-bold">Toplam Risk Puanı: ${scorePercentage} / 100</div>`;
 
           // Format and display static analysis results
           const staticAnalysis = data.static_analysis;
           const dynamicAnalysis = data.dynamic_analysis;
-          const riskLevelText = data.risk_level;
           const details = data.details;
 
           // Display detailed analysis in a structured format
@@ -138,10 +129,6 @@ const title = "Phishing URL Analiz Aracı";
                 <div class="flex justify-between mt-6">
                   <span class="text-gray-600 dark:text-gray-300">Toplam Puan</span>
                   <span class="font-medium text-gray-800 dark:text-gray-200">${data.score}</span>
-                </div>
-                <div class="flex justify-between mt-2">
-                  <span class="text-gray-600 dark:text-gray-300">Risk Seviyesi</span>
-                  <span class="font-medium ${riskColor}">${riskLevel}</span>
                 </div>
               </div>
             </div>
