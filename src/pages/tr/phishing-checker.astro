@@ -60,12 +60,12 @@ const title = "Phishing URL Analiz Aracı";
         const data = await response.json();
 
         if (response.ok && data) {
-          // Determine risk level based on score
+          // Determine risk level based on the score
           let riskLevel, riskColor;
-          if (data.score <= 30) {
+          if (data.score <= 5) {
             riskLevel = "✅ Düşük Risk";
             riskColor = "text-green-600";
-          } else if (data.score <= 70) {
+          } else if (data.score <= 10) {
             riskLevel = "⚠️ Orta Seviye Risk";
             riskColor = "text-yellow-500";
           } else {
