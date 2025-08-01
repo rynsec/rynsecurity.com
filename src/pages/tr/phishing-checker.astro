@@ -59,8 +59,8 @@ const title = "Phishing URL Analiz Aracı";
 
         const data = await response.json();
 
-        if (response.ok && data.score) {
-          // Update risk level based on the score
+        if (response.ok && data) {
+          // Determine risk level based on score
           let riskLevel, riskColor;
           if (data.score <= 30) {
             riskLevel = "✅ Düşük Risk";
@@ -74,26 +74,64 @@ const title = "Phishing URL Analiz Aracı";
           }
           result.innerHTML = `<div class="${riskColor} font-bold text-2xl">${riskLevel}</div>`;
 
-          // Show detailed analysis in a modern format
+          // Format and display static analysis results
+          const staticAnalysis = data.static_analysis;
+          const dynamicAnalysis = data.dynamic_analysis;
+          const riskLevelText = data.risk_level;
+          const details = data.details;
+
+          // Display detailed analysis in a structured format
           analysisDetails.innerHTML = `
             <div class="p-4 mt-4 bg-gray-100 dark:bg-zinc-800 rounded-xl shadow-md">
               <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">Analiz Sonuçları</h2>
-              <div class="space-y-3">
+              
+              <div class="space-y-4">
+                <!-- Static Analysis -->
                 <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-300">Statik Analiz</span>
-                  <span class="font-medium text-gray-800 dark:text-gray-200">${JSON.stringify(data.static_analysis)}</span>
+                  <span class="text-gray-600 dark:text-gray-300">Domain Yaşı (gün)</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.domain_age_days}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-300">Dinamik Analiz</span>
-                  <span class="font-medium text-gray-800 dark:text-gray-200">${JSON.stringify(data.dynamic_analysis)}</span>
+                  <span class="text-gray-600 dark:text-gray-300">Yeni Domain mi?</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_domain_new ? 'Evet' : 'Hayır'}</span>
                 </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">IP Adresi mi?</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_ip_address ? 'Evet' : 'Hayır'}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">Subdomain Şüpheli mi?</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_subdomain_suspicious ? 'Evet' : 'Hayır'}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">TLD Riskli mi?</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${staticAnalysis.is_tld_risky ? 'Evet' : 'Hayır'}</span>
+                </div>
+
+                <!-- Dynamic Analysis -->
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">Form Sayısı</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${dynamicAnalysis.form_count}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">Login Formu Tespit Edildi</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${dynamicAnalysis.has_login_form ? 'Evet' : 'Hayır'}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-300">SSL Geçerli mi?</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${dynamicAnalysis.ssl_valid ? 'Evet' : 'Hayır'}</span>
+                </div>
+
+                <!-- Risk Level -->
                 <div class="flex justify-between">
                   <span class="text-gray-600 dark:text-gray-300">Risk Seviyesi</span>
-                  <span class="font-medium ${riskColor}">${data.risk_level}</span>
+                  <span class="font-medium ${riskColor}">${riskLevelText}</span>
                 </div>
+
+                <!-- Details -->
                 <div class="flex justify-between">
                   <span class="text-gray-600 dark:text-gray-300">Detaylar</span>
-                  <span class="font-medium text-gray-800 dark:text-gray-200">${data.details}</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${details}</span>
                 </div>
               </div>
             </div>
