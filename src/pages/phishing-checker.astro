@@ -60,9 +60,9 @@ const title = "Phishing URL Analiz Aracı";
         const data = await response.json();
 
         if (response.ok && data) {
-          // Calculate percentage based on total score out of 40
-          const totalScore = data.score; // The total score from backend (0-20 for each side)
-          const scorePercentage = Math.round((totalScore / 40) * 100); // Normalize to 100
+          // Calculate percentage based on total score out of 100
+          const totalScore = data.score; // The total score from backend (0-100 scale)
+          const scorePercentage = Math.round(totalScore); // Normalize to 100
 
           result.innerHTML = `<div class="text-2xl font-bold">Toplam Risk Puanı: ${scorePercentage} / 100</div>`;
 
@@ -123,6 +123,12 @@ const title = "Phishing URL Analiz Aracı";
                 <div class="flex justify-between">
                   <span class="text-gray-600 dark:text-gray-300">Şüpheli Form Action</span>
                   <span class="font-medium text-gray-800 dark:text-gray-200">${dynamicAnalysis.suspicious_form_action ? 'Evet' : 'Hayır'}</span>
+                </div>
+
+                <!-- Genel Değerlendirme -->
+                <div class="flex justify-between mt-6">
+                  <span class="text-gray-600 dark:text-gray-300">Toplam Puan</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-200">${data.score}</span>
                 </div>
               </div>
             </div>
