@@ -45,7 +45,7 @@ const title = "Phishing URL Analiz Aracı";
 
       const url = form.url.value.trim();
       try {
-        const response = await fetch("http://91.98.26.21:5000/analyze", {
+        const response = await fetch("https://api.rynsecurity.com/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ url }),
